@@ -186,6 +186,22 @@
 #   (Optional) Run db sync on the node.
 #   Defaults to true
 #
+# [*opendaylight_host*]
+#   (Optional) IP or hostname of the opendaylight server.
+#   Defaults to '127.0.0.1'
+#
+# [*opendaylight_port*]
+#   (Optional) Port of the opendaylight server.
+#   Defaults to 8081 so it doesn't conflict with swift proxy.
+#
+# [*opendaylight_username*]
+#   (Optional) Username to auth to the opendaylight server.
+#   Defaults to admin, which is the ODL default.
+#
+# [*opendaylight_password*]
+#   (Optional) Password to auth to the opendaylight server.
+#   Defaults to admin, which is the ODL default.
+#
 # == Dependencies
 #  None
 #
@@ -194,7 +210,7 @@
 #   class { 'tacker':
 #     keystone_password   => 'tacker',
 #     keystone_tenant     => 'service',
-#     auth_uri            => 'http://192.168.122.6:5000/v2.0/',
+#     auth_uri            => 'http://192.168.122.6:5000/',
 #     identity_uri        => 'http://192.168.122.6:35357/',
 #     database_connection => 'mysql://tacker:password@192.168.122.6/tacker',
 #     rabbit_host         => '192.168.122.6',
@@ -265,17 +281,21 @@ class tacker(
   $amqp_durable_queues                = false,
   $service_provider                   = $::tacker::params::service_provider,
   $service_name                       = $::tacker::params::service_name,
+  $opendaylight_host                  = '127.0.0.1',
+  $opendaylight_port                  = 8081,
+  $opendaylight_username              = 'admin',
+  $opendaylight_password              = 'admin',
 ) inherits tacker::params {
   tacker_config {
-    'DEFAULT/service_plugins'         : value => 'tacker.vm.plugin.VNFMPlugin,tacker.sfc.plugin.SFCPlugin';
+    'DEFAULT/service_plugins'         : value => 'tacker.vm.plugin.VNFMPlugin,tacker.sfc.plugin.SFCPlugin,tacker.sfc_classifier.plugin.SFCCPlugin';
     'servicevm/infra_driver'          : value => 'heat';
     'servicevm_heat/stack_retries'    : value => '10';
     'servicevm_heat/stack_retry_wait' : value => '30';
     'sfc/infra_driver'                : value => 'opendaylight';
-    'sfc_opendaylight/ip'             : value => '192.0.2.9';
-    'sfc_opendaylight/port'           : value => '8081';
-    'sfc_opendaylight/username'       : value => 'admin';
-    'sfc_opendaylight/password'       : value => 'admin';
+    'sfc_opendaylight/ip'             : value => $opendaylight_host;
+    'sfc_opendaylight/port'           : value => $opendaylight_port;
+    'sfc_opendaylight/username'       : value => $opendaylight_username;
+    'sfc_opendaylight/password'       : value => $opendaylight_password;
   }
 
   if $identity_uri {

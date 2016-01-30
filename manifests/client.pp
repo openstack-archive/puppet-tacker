@@ -19,9 +19,5 @@ class tacker::client (
 
   if $ensure == 'present' {
     include '::openstacklib::openstackclient'
-  } else {
-    class { '::openstacklib::openstackclient':
-      package_ensure => $ensure,
-    }
-  }
+  } 
 }

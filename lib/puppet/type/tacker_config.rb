@@ -39,4 +39,8 @@ Puppet::Type.newtype(:tacker_config) do
 
     defaultto false
   end
+
+  autorequire(:package) do
+    'tacker'
+  end
 end

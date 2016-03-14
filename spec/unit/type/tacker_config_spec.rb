@@ -52,7 +52,7 @@ describe 'Puppet::Type.type(:tacker_config)' do
 
   it 'should autorequire the package that install the file' do
     catalog = Puppet::Resource::Catalog.new
-    package = Puppet::Type.type(:package).new(:name => 'tacker-common')
+    package = Puppet::Type.type(:package).new(:name => 'tacker')
     catalog.add_resource package, @tacker_config
     dependency = @tacker_config.autorequire
     expect(dependency.size).to eq(1)

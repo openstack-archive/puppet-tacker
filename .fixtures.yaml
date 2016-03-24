@@ -1,0 +1,11 @@
+fixtures:
+  repositories:
+    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    inifile: "https://github.com/puppetlabs/puppetlabs-inifile"
+    openstacklib: "https://github.com/openstack/puppet-openstacklib"
+    postgresql: "https://github.com/puppetlabs/puppetlabs-postgresql"
+    mysql: "https://github.com/puppetlabs/puppetlabs-mysql"
+    concat: "https://github.com/puppetlabs/puppetlabs-concat"
+    keystone: "https://github.com/openstack/puppet-keystone"
+  symlinks:
+    "tacker": "#{source_dir}"

@@ -26,7 +26,7 @@ describe 'tacker::db::postgresql' do
 
       it { is_expected.to contain_postgresql__server__db('tacker').with(
         :user     => 'tacker',
-        :password => 'md5c530c33636c58ae83ca933f39319273e'
+        :password => 'md54fb52f4ce3618bd50cf38d2b7399db7a'
       )}
     end
 
@@ -49,7 +49,7 @@ describe 'tacker::db::postgresql' do
 
       it { is_expected.to contain_postgresql__server__db('tacker').with(
         :user     => 'tacker',
-        :password => 'md5c530c33636c58ae83ca933f39319273e'
+        :password => 'md54fb52f4ce3618bd50cf38d2b7399db7a'
       )}
     end
 

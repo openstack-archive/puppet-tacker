@@ -56,24 +56,24 @@ describe 'tacker::logging' do
   end
 
   shared_examples 'basic default logging settings' do
-    it 'configures ceilometer logging settins with default values' do
-      is_expected.to contain_ceilometer_config('DEFAULT/use_syslog').with(:value => 'false')
-      is_expected.to contain_ceilometer_config('DEFAULT/use_stderr').with(:value => 'true')
-      is_expected.to contain_ceilometer_config('DEFAULT/syslog_log_facility').with(:value => 'LOG_USER')
-      is_expected.to contain_ceilometer_config('DEFAULT/log_dir').with(:value => '/var/log/tacker')
-      is_expected.to contain_ceilometer_config('DEFAULT/verbose').with(:value => 'false')
-      is_expected.to contain_ceilometer_config('DEFAULT/debug').with(:value => 'false')
+    it 'configures tacker logging settins with default values' do
+      is_expected.to contain_tacker_config('DEFAULT/use_syslog').with(:value => 'false')
+      is_expected.to contain_tacker_config('DEFAULT/use_stderr').with(:value => 'true')
+      is_expected.to contain_tacker_config('DEFAULT/syslog_log_facility').with(:value => 'LOG_USER')
+      is_expected.to contain_tacker_config('DEFAULT/log_dir').with(:value => '/var/log/tacker')
+      is_expected.to contain_tacker_config('DEFAULT/verbose').with(:value => 'false')
+      is_expected.to contain_tacker_config('DEFAULT/debug').with(:value => 'false')
     end
   end
 
   shared_examples 'basic non-default logging settings' do
-    it 'configures ceilometer logging settins with non-default values' do
-      is_expected.to contain_ceilometer_config('DEFAULT/use_syslog').with(:value => 'true')
-      is_expected.to contain_ceilometer_config('DEFAULT/use_stderr').with(:value => 'false')
-      is_expected.to contain_ceilometer_config('DEFAULT/syslog_log_facility').with(:value => 'LOG_FOO')
-      is_expected.to contain_ceilometer_config('DEFAULT/log_dir').with(:value => '/var/log')
-      is_expected.to contain_ceilometer_config('DEFAULT/verbose').with(:value => 'true')
-      is_expected.to contain_ceilometer_config('DEFAULT/debug').with(:value => 'true')
+    it 'configures tacker logging settins with non-default values' do
+      is_expected.to contain_tacker_config('DEFAULT/use_syslog').with(:value => 'true')
+      is_expected.to contain_tacker_config('DEFAULT/use_stderr').with(:value => 'false')
+      is_expected.to contain_tacker_config('DEFAULT/syslog_log_facility').with(:value => 'LOG_FOO')
+      is_expected.to contain_tacker_config('DEFAULT/log_dir').with(:value => '/var/log')
+      is_expected.to contain_tacker_config('DEFAULT/verbose').with(:value => 'true')
+      is_expected.to contain_tacker_config('DEFAULT/debug').with(:value => 'true')
     end
   end
 

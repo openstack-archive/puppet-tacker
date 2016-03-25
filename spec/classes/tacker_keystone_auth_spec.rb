@@ -26,17 +26,16 @@ describe 'tacker::keystone::auth' do
       :roles   => ['admin']
     )}
 
-    it { is_expected.to contain_keystone_service('tacker').with(
+    it { is_expected.to contain_keystone_service('tacker::servicevm').with(
       :ensure      => 'present',
-      :type        => 'FIXME',
-      :description => 'tacker FIXME Service'
+      :description => 'tacker VNF Manager service'
     ) }
 
-    it { is_expected.to contain_keystone_endpoint('RegionOne/tacker').with(
+    it { is_expected.to contain_keystone_endpoint('RegionOne/tacker::servicevm').with(
       :ensure       => 'present',
-      :public_url   => 'http://127.0.0.1:FIXME',
-      :admin_url    => 'http://127.0.0.1:FIXME',
-      :internal_url => 'http://127.0.0.1:FIXME',
+      :public_url   => 'http://127.0.0.1:8888/',
+      :admin_url    => 'http://127.0.0.1:8888/',
+      :internal_url => 'http://127.0.0.1:8888/',
     ) }
   end
 
@@ -48,11 +47,11 @@ describe 'tacker::keystone::auth' do
         :admin_url    => 'http://10.10.10.12:81', }
     end
 
-    it { is_expected.to contain_keystone_endpoint('RegionOne/tacker').with(
+    it { is_expected.to contain_keystone_endpoint('RegionOne/tacker::servicevm').with(
       :ensure       => 'present',
-      :public_url   => 'https://10.10.10.10:80',
-      :internal_url => 'http://10.10.10.11:81',
-      :admin_url    => 'http://10.10.10.12:81',
+      :public_url   => 'https://10.10.10.10:80/',
+      :internal_url => 'http://10.10.10.11:81/',
+      :admin_url    => 'http://10.10.10.12:81/',
     ) }
   end
 
@@ -64,8 +63,8 @@ describe 'tacker::keystone::auth' do
 
     it { is_expected.to contain_keystone_user('tackery') }
     it { is_expected.to contain_keystone_user_role('tackery@services') }
-    it { is_expected.to contain_keystone_service('tackery') }
-    it { is_expected.to contain_keystone_endpoint('RegionOne/tackery') }
+    it { is_expected.to contain_keystone_service('tackery::servicevm') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/tackery::servicevm') }
   end
 
   describe 'when overriding service name' do
@@ -77,8 +76,8 @@ describe 'tacker::keystone::auth' do
 
     it { is_expected.to contain_keystone_user('tacker') }
     it { is_expected.to contain_keystone_user_role('tacker@services') }
-    it { is_expected.to contain_keystone_service('tacker_service') }
-    it { is_expected.to contain_keystone_endpoint('RegionOne/tacker_service') }
+    it { is_expected.to contain_keystone_service('tacker_service::servicevm') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/tacker_service::servicevm') }
   end
 
   describe 'when disabling user configuration' do
@@ -92,10 +91,9 @@ describe 'tacker::keystone::auth' do
 
     it { is_expected.not_to contain_keystone_user('tacker') }
     it { is_expected.to contain_keystone_user_role('tacker@services') }
-    it { is_expected.to contain_keystone_service('tacker').with(
+    it { is_expected.to contain_keystone_service('tacker::servicevm').with(
       :ensure      => 'present',
-      :type        => 'FIXME',
-      :description => 'tacker FIXME Service'
+      :description => 'tacker VNF Manager service'
     ) }
 
   end
@@ -112,10 +110,9 @@ describe 'tacker::keystone::auth' do
 
     it { is_expected.not_to contain_keystone_user('tacker') }
     it { is_expected.not_to contain_keystone_user_role('tacker@services') }
-    it { is_expected.to contain_keystone_service('tacker').with(
+    it { is_expected.to contain_keystone_service('tacker::servicevm').with(
       :ensure      => 'present',
-      :type        => 'FIXME',
-      :description => 'tacker FIXME Service'
+      :description => 'tacker VNF Manager service'
     ) }
 
   end

@@ -4,7 +4,7 @@ describe 'tacker::db' do
 
   shared_examples 'tacker::db' do
     context 'with default parameters' do
-      it { is_expected.to contain_tacker_config('database/connection').with_value('mysql://tacker:secrete@localhost:3306/tacker') }
+      it { is_expected.to contain_tacker_config('database/connection').with_value('sqlite:////var/lib/tacker/tacker.sqlite') }
       it { is_expected.to contain_tacker_config('database/idle_timeout').with_value('3600') }
       it { is_expected.to contain_tacker_config('database/min_pool_size').with_value('1') }
       it { is_expected.to contain_tacker_config('database/max_retries').with_value('10') }
@@ -47,7 +47,7 @@ describe 'tacker::db' do
 
     context 'with incorrect database_connection string' do
       let :params do
-        { :database_connection     => 'sqlite://tacker:tacker@localhost/tacker', }
+        { :database_connection     => 'redis://tacker:tacker@localhost/tacker', }
       end
 
       it_raises 'a Puppet::Error', /validate_re/

@@ -262,6 +262,7 @@ class tacker(
   $database_min_pool_size             = undef,
   $database_max_pool_size             = undef,
   $database_max_overflow              = undef,
+  $sync_db                            = true,
   $rpc_backend                        = 'rabbit',
   $control_exchange                   = 'tacker',
   $rabbit_host                        = '127.0.0.1',

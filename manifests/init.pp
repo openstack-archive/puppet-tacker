@@ -202,6 +202,10 @@
 #   (Optional) Password to auth to the opendaylight server.
 #   Defaults to admin, which is the ODL default.
 #
+# [*heat_uri*]
+#   (Optional) Heat URI to access Heat API server.
+#   Defaults to false.
+#
 # == Dependencies
 #  None
 #
@@ -234,7 +238,7 @@
 # == Authors
 #
 #   Dan Radez <dradez@redhat.com>
-#
+#   Tim Rozet <trozet@redhat.com>
 # == Copyright
 #
 # Copyright 2015 Red Hat Inc, unless otherwise noted.
@@ -286,6 +290,7 @@ class tacker(
   $opendaylight_port                  = 8081,
   $opendaylight_username              = 'admin',
   $opendaylight_password              = 'admin',
+  $heat_uri                           = false,
 ) inherits tacker::params {
   tacker_config {
     'DEFAULT/service_plugins'         : value => 'tacker.vm.plugin.VNFMPlugin,tacker.sfc.plugin.SFCPlugin,tacker.sfc_classifier.plugin.SFCCPlugin';
@@ -310,6 +315,10 @@ class tacker(
     tacker_config { 'keystone_authtoken/auth_uri': value => $auth_uri; }
   } else {
     tacker_config { 'keystone_authtoken/auth_uri': ensure => absent; }
+  }
+
+  if $heat_uri {
+    tacker_config { 'servicevm_heat/heat_uri': value => $heat_uri; }
   }
 
   if $auth_type == 'keystone' {

@@ -3,7 +3,7 @@ Puppet::Type.newtype(:tacker_config) do
   ensurable
 
   newparam(:name, :namevar => true) do
-    desc 'Section/setting name to manage from /etc/tacker/tacker.conf'
+    desc 'Section/setting name to manage from tacker.conf'
     newvalues(/\S+\/\S+/)
   end
 
@@ -14,6 +14,7 @@ Puppet::Type.newtype(:tacker_config) do
       value.capitalize! if value =~ /^(true|false)$/i
       value
     end
+    newvalues(/^[\S ]*$/)
 
     def is_to_s( currentvalue )
       if resource.secret?
@@ -48,4 +49,5 @@ Puppet::Type.newtype(:tacker_config) do
   autorequire(:package) do
     'tacker'
   end
+
 end

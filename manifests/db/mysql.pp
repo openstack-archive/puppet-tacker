@@ -1,7 +1,7 @@
 # The tacker::db::mysql class implements mysql backend for tacker
 #
 # This class can be used to create tables, users and grant
-# privelege for a mysql tacker database.
+# privilege for a mysql tacker database.
 #
 # == parameters
 #

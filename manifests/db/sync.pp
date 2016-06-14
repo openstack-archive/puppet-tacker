@@ -1,13 +1,22 @@
 #
-# Class to execute "tacker-manage db_sync
+# Class to execute tacker-manage db_sync
 #
-class tacker::db::sync {
-  exec { 'tacker-manage db_sync':
+# == Parameters
+#
+# [*extra_params*]
+#   (optional) String of extra command line parameters to append
+#   to the tacker-dbsync command.
+#   Defaults to undef
+#
+class tacker::db::sync(
+  $extra_params  = undef,
+) {
+  exec { 'tacker-db-sync':
+    command     => "tacker-manage db_sync ${extra_params}",
     path        => '/usr/bin',
     user        => 'tacker',
     refreshonly => true,
     subscribe   => [Package['tacker'], Tacker_config['database/connection']],
-    require     => User['tacker'],
   }
 
   Exec['tacker-manage db_sync'] ~> Service<| title == 'tacker' |>

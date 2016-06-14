@@ -36,4 +36,6 @@ class tacker::policy (
 
   create_resources('openstacklib::policy::base', $policies)
 
+  oslo::policy { 'tacker_config': policy_file => $policy_path }
+
 }

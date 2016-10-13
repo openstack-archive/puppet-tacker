@@ -16,6 +16,8 @@ class tacker::db::sync(
     path        => '/usr/bin',
     user        => 'tacker',
     refreshonly => true,
+    try_sleep   => 5,
+    tries       => 10,
     subscribe   => [Package['tacker'], Tacker_config['database/connection']],
   }
 

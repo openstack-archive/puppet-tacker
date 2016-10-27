@@ -19,6 +19,7 @@ describe 'tacker::policy' do
         :key   => 'context_is_admin',
         :value => 'foo:bar'
       })
+      is_expected.to contain_tacker_config('oslo_policy/policy_file').with_value('/etc/tacker/policy.json')
     end
   end
 

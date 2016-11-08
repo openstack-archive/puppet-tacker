@@ -7,7 +7,6 @@ describe 'tacker' do
     context 'with default parameters' do
       let :params do
         {
-          :rabbit_password   => '<SERVICE DEFAULT>',
         }
       end
 
@@ -17,11 +16,7 @@ describe 'tacker' do
 
       it 'configures rabbit' do
         is_expected.to contain_tacker_config('DEFAULT/rpc_backend').with_value('rabbit')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_password').with_value('<SERVICE DEFAULT>').with_secret(true)
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_userid').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_tacker_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>')
@@ -32,10 +27,7 @@ describe 'tacker' do
     context 'with overridden parameters' do
       let :params do
         {
-          :rabbit_host                        => 'rabbit',
-          :rabbit_userid                      => 'rabbit_user',
-          :rabbit_port                        => '5673',
-          :rabbit_password                    => 'password',
+          :default_transport_url              => 'rabbit://user:pass@host:1234/virt',
           :rabbit_ha_queues                   => 'undef',
           :rabbit_heartbeat_timeout_threshold => '60',
           :rabbit_heartbeat_rate              => '10',
@@ -45,11 +37,7 @@ describe 'tacker' do
 
       it 'configures rabbit' do
         is_expected.to contain_tacker_config('DEFAULT/rpc_backend').with_value('rabbit')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_host').with_value('rabbit')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_password').with_value('password').with_secret(true)
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_port').with_value('5673')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_userid').with_value('rabbit_user')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_tacker_config('DEFAULT/transport_url').with_value('rabbit://user:pass@host:1234/virt')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('60')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/heartbeat_rate').with_value('10')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/kombu_compression').with_value('gzip')
@@ -57,48 +45,9 @@ describe 'tacker' do
 
     end
 
-    context 'with rabbit_hosts parameter' do
-      let :params do
-        {
-          :rabbit_password   => '<SERVICE DEFAULT>',
-          :rabbit_hosts      => ['rabbit:5673', 'rabbit2:5674']
-        }
-      end
-
-      it 'configures rabbit' do
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit:5673,rabbit2:5674')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true)
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/amqp_durable_queues').with_value('<SERVICE DEFAULT>')
-      end
-    end
-
-    context 'with rabbit_hosts parameter (one server)' do
-      let :params do
-        {
-          :rabbit_password   => '<SERVICE DEFAULT>',
-          :rabbit_hosts      => ['rabbit:5673'] }
-      end
-
-      it 'configures rabbit' do
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit:5673')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/amqp_durable_queues').with_value('<SERVICE DEFAULT>')
-      end
-    end
-
     context 'with kombu_reconnect_delay set to 5.0' do
       let :params do
-        {
-          :rabbit_password       => '<SERVICE DEFAULT>',
-          :kombu_reconnect_delay => '5.0' }
+        { :kombu_reconnect_delay => '5.0' }
       end
 
       it 'configures rabbit' do
@@ -108,9 +57,7 @@ describe 'tacker' do
 
     context 'with rabbit_ha_queues set to true' do
       let :params do
-        {
-          :rabbit_password   => '<SERVICE DEFAULT>',
-          :rabbit_ha_queues  => 'true' }
+        { :rabbit_ha_queues  => 'true' }
       end
 
       it 'configures rabbit' do
@@ -118,12 +65,9 @@ describe 'tacker' do
       end
     end
 
-    context 'with rabbit_ha_queues set to false and with rabbit_hosts' do
+    context 'with rabbit_ha_queues set to false' do
       let :params do
-        {
-          :rabbit_password   => '<SERVICE DEFAULT>',
-          :rabbit_ha_queues  => 'false',
-          :rabbit_hosts      => ['rabbit:5673'] }
+        { :rabbit_ha_queues  => 'false' }
       end
 
       it 'configures rabbit' do
@@ -133,16 +77,10 @@ describe 'tacker' do
 
     context 'with amqp_durable_queues parameter' do
       let :params do
-        {
-          :rabbit_password     => '<SERVICE DEFAULT>',
-          :rabbit_hosts        => ['rabbit:5673'],
-          :amqp_durable_queues => 'true' }
+        { :amqp_durable_queues => 'true' }
       end
 
       it 'configures rabbit' do
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit:5673')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/amqp_durable_queues').with_value(true)
@@ -152,8 +90,6 @@ describe 'tacker' do
     context 'with rabbit ssl enabled with kombu' do
       let :params do
         {
-          :rabbit_password    => '<SERVICE DEFAULT>',
-          :rabbit_hosts       => ['rabbit:5673'],
           :rabbit_use_ssl     => true,
           :kombu_ssl_ca_certs => '/etc/ca.cert',
           :kombu_ssl_certfile => '/etc/certfile',
@@ -173,8 +109,6 @@ describe 'tacker' do
     context 'with rabbit ssl enabled without kombu' do
       let :params do
         {
-          :rabbit_password    => '<SERVICE DEFAULT>',
-          :rabbit_hosts       => ['rabbit:5673'],
           :rabbit_use_ssl     => true, }
       end
 

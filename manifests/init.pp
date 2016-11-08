@@ -9,29 +9,10 @@
 #   (Optional) Use these options to configure the RabbitMQ message system.
 #   Defaults to 'rabbit'
 #
-# [*rabbit_host*]
-#   (Optional) IP or hostname of the rabbit server.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_port*]
-#   (Optional) Port of the rabbit server.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_hosts*]
-#   (Optional) Array of host:port (used with HA queues).
-#   If defined, will remove rabbit_host & rabbit_port parameters from config
-#   Defaults to $::os_service_default
-#
-# [*rabbit_userid*]
-#   (Optional) User to connect to the rabbit server.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_password*]
-#   (Required) Password to connect to the rabbit_server.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_virtual_host*]
-#   (Optional) Virtual_host to use.
+# [*default_transport_url*]
+#   (optional) A URL representing the messaging driver to use and its full
+#   configuration. Transport URLs take the form:
+#     transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #   Defaults to $::os_service_default
 #
 # [*rabbit_heartbeat_timeout_threshold*]
@@ -168,14 +149,9 @@
 #
 class tacker(
   $rpc_backend                        = 'rabbit',
-  $rabbit_host                        = $::os_service_default,
-  $rabbit_port                        = $::os_service_default,
-  $rabbit_hosts                       = $::os_service_default,
-  $rabbit_virtual_host                = $::os_service_default,
+  $default_transport_url              = $::os_service_default,
   $rabbit_heartbeat_timeout_threshold = $::os_service_default,
   $rabbit_heartbeat_rate              = $::os_service_default,
-  $rabbit_userid                      = $::os_service_default,
-  $rabbit_password                    = $::os_service_default,
   $rabbit_use_ssl                     = $::os_service_default,
   $rabbit_ha_queues                   = $::os_service_default,
   $kombu_ssl_ca_certs                 = $::os_service_default,
@@ -212,9 +188,6 @@ class tacker(
 
   if $rpc_backend == 'rabbit' {
     oslo::messaging::rabbit {'tacker_config':
-      rabbit_password             => $rabbit_password,
-      rabbit_userid               => $rabbit_userid,
-      rabbit_virtual_host         => $rabbit_virtual_host,
       rabbit_use_ssl              => $rabbit_use_ssl,
       heartbeat_timeout_threshold => $rabbit_heartbeat_timeout_threshold,
       heartbeat_rate              => $rabbit_heartbeat_rate,
@@ -225,9 +198,6 @@ class tacker(
       kombu_ssl_certfile          => $kombu_ssl_certfile,
       kombu_ssl_keyfile           => $kombu_ssl_keyfile,
       kombu_ssl_version           => $kombu_ssl_version,
-      rabbit_hosts                => $rabbit_hosts,
-      rabbit_host                 => $rabbit_host,
-      rabbit_port                 => $rabbit_port,
       rabbit_ha_queues            => $rabbit_ha_queues,
     }
   } elsif $rpc_backend == 'amqp' {
@@ -253,4 +223,7 @@ class tacker(
     tacker_config { 'DEFAULT/rpc_backend': value => $rpc_backend }
   }
 
+  oslo::messaging::default { 'tacker_config':
+    transport_url => $default_transport_url,
+  }
 }

@@ -40,7 +40,7 @@ class tacker::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  Class['tacker::db::postgresql'] -> Service<| title == 'tacker' |>
+  include ::tacker::deps
 
   ::openstacklib::db::postgresql { 'tacker':
     password_hash => postgresql_password($user, $password),
@@ -50,6 +50,8 @@ class tacker::db::postgresql(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['tacker'] ~> Exec<| title == 'tacker-manage db_sync' |>
+  Anchor['tacker::db::begin']
+  ~> Class['tacker::db::postgresql']
+  ~> Anchor['tacker::db::end']
 
 }

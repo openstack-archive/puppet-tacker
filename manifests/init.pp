@@ -180,6 +180,7 @@ class tacker(
   $sync_db                            = true,
 ) inherits tacker::params {
 
+  include ::tacker::deps
   include ::tacker::logging
 
   if $sync_db {

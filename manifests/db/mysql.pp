@@ -53,6 +53,8 @@ class tacker::db::mysql(
   $allowed_hosts = undef
 ) {
 
+  include ::tacker::deps
+
   validate_string($password)
 
   ::openstacklib::db::mysql { 'tacker':
@@ -65,5 +67,8 @@ class tacker::db::mysql(
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['tacker'] ~> Exec<| title == 'tacker-manage db_sync' |>
+  Anchor['tacker::db::begin']
+  ~> Class['tacker::db::mysql']
+  ~> Anchor['tacker::db::end']
+
 }

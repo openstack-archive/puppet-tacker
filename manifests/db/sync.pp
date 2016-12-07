@@ -11,6 +11,9 @@
 class tacker::db::sync(
   $extra_params  = undef,
 ) {
+
+  include ::tacker::deps
+
   exec { 'tacker-db-sync':
     command     => "tacker-manage db_sync ${extra_params}",
     path        => '/usr/bin',
@@ -18,8 +21,12 @@ class tacker::db::sync(
     refreshonly => true,
     try_sleep   => 5,
     tries       => 10,
-    subscribe   => [Package['tacker'], Tacker_config['database/connection']],
+    subscribe   => [
+      Anchor['tacker::install::end'],
+      Anchor['tacker::config::end'],
+      Anchor['tacker::dbsync::begin']
+    ],
+    notify      => Anchor['tacker::dbsync::end'],
   }
 
-  Exec['tacker-manage db_sync'] ~> Service<| title == 'tacker' |>
 }

@@ -14,6 +14,10 @@ describe 'tacker' do
         is_expected.to contain_class('tacker::logging')
       end
 
+      it 'contains the deps class' do
+        is_expected.to contain_class('tacker::deps')
+      end
+
       it 'configures rabbit' do
         is_expected.to contain_tacker_config('DEFAULT/rpc_backend').with_value('rabbit')
         is_expected.to contain_tacker_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>')

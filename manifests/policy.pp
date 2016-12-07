@@ -28,6 +28,8 @@ class tacker::policy (
   $policy_path = '/etc/tacker/policy.json',
 ) {
 
+  include ::tacker::deps
+
   validate_hash($policies)
 
   Openstacklib::Policy::Base {

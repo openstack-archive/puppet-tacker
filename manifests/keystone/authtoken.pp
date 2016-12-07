@@ -222,6 +222,8 @@ class tacker::keystone::authtoken(
   $token_cache_time               = $::os_service_default,
 ) {
 
+  include ::tacker::deps
+
   keystone::resource::authtoken { 'tacker_config':
     username                       => $username,
     password                       => $password,

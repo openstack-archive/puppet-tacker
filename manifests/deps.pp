@@ -29,6 +29,10 @@ class tacker::deps {
   -> Openstacklib::Policy::Base<||>
   ~> Anchor['tacker::config::end']
 
+  # all db settings should be applied and all packages should be installed
+  # before dbsync starts
+  Oslo::Db<||> -> Anchor['tacker::dbsync::begin']
+
   # Installation or config changes will always restart services.
   Anchor['tacker::install::end'] ~> Anchor['tacker::service::begin']
   Anchor['tacker::config::end']  ~> Anchor['tacker::service::begin']

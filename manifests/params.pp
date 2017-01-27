@@ -7,7 +7,7 @@ class tacker::params {
   case $::osfamily {
     'RedHat': {
       $package_name     = 'openstack-tacker'
-      $service_name     = 'tacker-server'
+      $service_name     = 'openstack-tacker-server'
     }
     'Debian': {
       $package_name     = 'tacker'

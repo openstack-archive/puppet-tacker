@@ -42,6 +42,13 @@ describe 'tacker::server' do
             :tag    => 'tacker-service',
           )
         end
+        it 'contains tacker' do
+          is_expected.to contain_package('tacker-server').with(
+             :ensure => 'present',
+             :name   => platform_params[:tacker_package]
+          )
+        end
+
       end
     end
 
@@ -58,9 +65,11 @@ describe 'tacker::server' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          { :tacker_service => 'tacker' }
+          { :tacker_service => 'tacker',
+            :tacker_package => 'tacker' }
         when 'RedHat'
-          { :tacker_service => 'openstack-tacker-server' }
+          { :tacker_service => 'openstack-tacker-server',
+            :tacker_package => 'openstack-tacker' }
         end
       end
 

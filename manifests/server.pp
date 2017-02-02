@@ -22,12 +22,17 @@
 #   (optional) The port to bind to.
 #   Defaults to $::os_service_default
 #
+# [*package_ensure*]
+#   (Optional) Ensure state for package.
+#   Defaults to 'present'
+#
 class tacker::server(
   $manage_service = true,
   $enabled        = true,
   $auth_strategy  = 'keystone',
   $bind_host      = $::os_service_default,
   $bind_port      = $::os_service_default,
+  $package_ensure = 'present',
 ) {
 
   include ::tacker::deps
@@ -36,6 +41,12 @@ class tacker::server(
 
   if $auth_strategy == 'keystone' {
     include ::tacker::keystone::authtoken
+  }
+
+  package { 'tacker-server':
+    ensure => $package_ensure,
+    name   => $::tacker::params::package_name,
+    tag    => ['openstack', 'tacker-package'],
   }
 
   tacker_config {

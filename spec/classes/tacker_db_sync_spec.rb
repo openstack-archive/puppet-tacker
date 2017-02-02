@@ -6,9 +6,9 @@ describe 'tacker::db::sync' do
 
     it 'runs tacker-manage db sync' do
       is_expected.to contain_exec('tacker-db-sync').with(
-        :command     => 'tacker-manage db_sync ',
+        :command     => 'tacker-db-manage  upgrade head',
         :user        => 'tacker',
-        :path        => '/usr/bin',
+        :path        => ['/bin','/usr/bin'],
         :refreshonly => 'true',
         :try_sleep   => 5,
         :tries       => 10,
@@ -28,15 +28,15 @@ describe 'tacker::db::sync' do
 
       it {
         is_expected.to contain_exec('tacker-db-sync').with(
-          :command     => 'tacker-manage db_sync --config-file /etc/tacker/tacker.conf',
+          :command     => 'tacker-db-manage --config-file /etc/tacker/tacker.conf upgrade head',
           :user        => 'tacker',
-          :path        => '/usr/bin',
+          :path        => ['/bin','/usr/bin'],
           :refreshonly => 'true',
           :try_sleep   => 5,
           :tries       => 10,
           :subscribe   => ['Anchor[tacker::install::end]',
-                         'Anchor[tacker::config::end]',
-                         'Anchor[tacker::dbsync::begin]'],
+                          'Anchor[tacker::config::end]',
+                          'Anchor[tacker::dbsync::begin]'],
           :notify      => 'Anchor[tacker::dbsync::end]',
         )
       }

@@ -1,5 +1,5 @@
 #
-# Class to execute tacker-manage db_sync
+# Class to execute tacker-db-manage
 #
 # == Parameters
 #
@@ -8,16 +8,21 @@
 #   to the tacker-dbsync command.
 #   Defaults to undef
 #
+# [*user*]
+#   (optional) User to run dbsync command.
+#   Defaults to 'congress'
+#
 class tacker::db::sync(
   $extra_params  = undef,
+  $user = 'tacker',
 ) {
 
   include ::tacker::deps
 
   exec { 'tacker-db-sync':
-    command     => "tacker-manage db_sync ${extra_params}",
-    path        => '/usr/bin',
-    user        => 'tacker',
+    command     => "tacker-db-manage ${extra_params} upgrade head",
+    path        => ['/bin', '/usr/bin'],
+    user        => $user,
     refreshonly => true,
     try_sleep   => 5,
     tries       => 10,

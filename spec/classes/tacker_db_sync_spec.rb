@@ -6,7 +6,7 @@ describe 'tacker::db::sync' do
 
     it 'runs tacker-manage db sync' do
       is_expected.to contain_exec('tacker-db-sync').with(
-        :command     => 'tacker-db-manage  upgrade head',
+        :command     => 'tacker-db-manage --config-file /etc/tacker/tacker.conf upgrade head',
         :user        => 'tacker',
         :path        => ['/bin','/usr/bin'],
         :refreshonly => 'true',

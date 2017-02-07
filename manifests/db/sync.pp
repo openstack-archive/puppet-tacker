@@ -6,14 +6,14 @@
 # [*extra_params*]
 #   (optional) String of extra command line parameters to append
 #   to the tacker-dbsync command.
-#   Defaults to undef
+#   Defaults to '--config-file /etc/tacker/tacker.conf'
 #
 # [*user*]
 #   (optional) User to run dbsync command.
 #   Defaults to 'congress'
 #
 class tacker::db::sync(
-  $extra_params  = undef,
+  $extra_params  = '--config-file /etc/tacker/tacker.conf',
   $user = 'tacker',
 ) {
 

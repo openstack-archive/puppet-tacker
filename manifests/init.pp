@@ -9,6 +9,21 @@
 #   (Optional) Use these options to configure the RabbitMQ message system.
 #   Defaults to 'rabbit'
 #
+# [*notification_transport_url*]
+#   (optional) A URL representing the messaging driver to use for notifications
+#   and its full configuration. Transport URLs take the form:
+#     transport://user:pass@host1:port[,hostN:portN]/virtual_host
+#   Defaults to $::os_service_default
+#
+# [*notification_topics*]
+#   (optional) AMQP topics to publish to when using the RPC notification driver.
+#   (list value)
+#   Default to $::os_service_default
+#
+# [*notification_driver*]
+#  (Optional) Notification driver to use
+#  Defaults to $::os_service_default
+#
 # [*default_transport_url*]
 #   (optional) A URL representing the messaging driver to use and its full
 #   configuration. Transport URLs take the form:
@@ -159,6 +174,9 @@
 #
 class tacker(
   $rpc_backend                        = 'rabbit',
+  $notification_transport_url         = $::os_service_default,
+  $notification_driver                = $::os_service_default,
+  $notification_topics                = $::os_service_default,
   $default_transport_url              = $::os_service_default,
   $rpc_response_timeout               = $::os_service_default,
   $control_exchange                   = $::os_service_default,
@@ -241,4 +259,11 @@ class tacker(
     rpc_response_timeout => $rpc_response_timeout,
     control_exchange     => $control_exchange,
   }
+
+  oslo::messaging::notifications { 'tacker_config':
+    transport_url => $notification_transport_url,
+    driver        => $notification_driver,
+    topics        => $notification_topics,
+  }
+
 }

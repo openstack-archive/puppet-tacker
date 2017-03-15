@@ -26,6 +26,9 @@ describe 'tacker' do
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_tacker_config('oslo_messaging_notifications/transport_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_tacker_config('oslo_messaging_notifications/driver').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_tacker_config('oslo_messaging_notifications/topics').with_value('<SERVICE DEFAULT>')
       end
 
     end
@@ -40,6 +43,9 @@ describe 'tacker' do
           :rabbit_heartbeat_timeout_threshold => '60',
           :rabbit_heartbeat_rate              => '10',
           :kombu_compression                  => 'gzip',
+          :notification_transport_url         => 'rabbit://user:pass@host:1234/virt',
+          :notification_topics                => 'openstack',
+          :notification_driver                => 'messagingv1',
         }
       end
 
@@ -51,6 +57,9 @@ describe 'tacker' do
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('60')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/heartbeat_rate').with_value('10')
         is_expected.to contain_tacker_config('oslo_messaging_rabbit/kombu_compression').with_value('gzip')
+        is_expected.to contain_tacker_config('oslo_messaging_notifications/transport_url').with_value('rabbit://user:pass@host:1234/virt')
+        is_expected.to contain_tacker_config('oslo_messaging_notifications/driver').with_value('messagingv1')
+        is_expected.to contain_tacker_config('oslo_messaging_notifications/topics').with_value('openstack')
       end
 
     end

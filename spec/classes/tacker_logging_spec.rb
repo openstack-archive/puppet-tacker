@@ -56,7 +56,7 @@ describe 'tacker::logging' do
   end
 
   shared_examples 'basic default logging settings' do
-    it 'configures tacker logging settins with default values' do
+    it 'configures tacker logging settings with default values' do
       is_expected.to contain_tacker_config('DEFAULT/use_syslog').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_tacker_config('DEFAULT/use_stderr').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_tacker_config('DEFAULT/syslog_log_facility').with(:value => '<SERVICE DEFAULT>')
@@ -67,7 +67,7 @@ describe 'tacker::logging' do
   end
 
   shared_examples 'basic non-default logging settings' do
-    it 'configures tacker logging settins with non-default values' do
+    it 'configures tacker logging settings with non-default values' do
       is_expected.to contain_tacker_config('DEFAULT/use_syslog').with(:value => 'true')
       is_expected.to contain_tacker_config('DEFAULT/use_stderr').with(:value => 'false')
       is_expected.to contain_tacker_config('DEFAULT/syslog_log_facility').with(:value => 'LOG_FOO')

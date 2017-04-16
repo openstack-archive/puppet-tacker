@@ -4,6 +4,11 @@
 #
 # === Parameters
 #
+# [*database_db_max_retries*]
+#   (optional) Maximum retries in case of connection error or deadlock error
+#   before error is raised. Set to -1 to specify an infinite retry count.
+#   Defaults to $::os_service_default
+#
 # [*database_connection*]
 #   (Optional) Url used to connect to database.
 #   Defaults to "sqlite:////var/lib/tacker/tacker.sqlite".
@@ -34,6 +39,7 @@
 #   Defaults to $::os_service_default
 #
 class tacker::db (
+  $database_db_max_retries = $::os_service_default,
   $database_connection     = 'sqlite:////var/lib/tacker/tacker.sqlite',
   $database_idle_timeout   = $::os_service_default,
   $database_min_pool_size  = $::os_service_default,
@@ -49,6 +55,7 @@ class tacker::db (
     '^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
 
   oslo::db { 'tacker_config':
+    db_max_retries => $database_db_max_retries,
     connection     => $database_connection,
     idle_timeout   => $database_idle_timeout,
     min_pool_size  => $database_min_pool_size,

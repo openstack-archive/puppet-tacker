@@ -10,6 +10,7 @@ class tacker::client (
   $ensure = 'present'
 ) {
 
+  include ::tacker::deps
   include ::tacker::params
 
   package { 'python-tackerclient':

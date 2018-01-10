@@ -2,6 +2,7 @@
 #
 class tacker::params {
   include ::openstacklib::defaults
+  $group = 'tacker'
 
   $client_package_name = 'python-tackerclient'
   case $::osfamily {

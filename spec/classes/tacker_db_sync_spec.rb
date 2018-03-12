@@ -17,6 +17,7 @@ describe 'tacker::db::sync' do
                          'Anchor[tacker::config::end]',
                          'Anchor[tacker::dbsync::begin]'],
         :notify      => 'Anchor[tacker::dbsync::end]',
+        :tag         => 'openstack-db',
       )
     end
 
@@ -40,6 +41,7 @@ describe 'tacker::db::sync' do
                           'Anchor[tacker::config::end]',
                           'Anchor[tacker::dbsync::begin]'],
           :notify      => 'Anchor[tacker::dbsync::end]',
+          :tag         => 'openstack-db',
         )
       }
     end

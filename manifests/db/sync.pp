@@ -33,6 +33,7 @@ class tacker::db::sync(
       Anchor['tacker::dbsync::begin']
     ],
     notify      => Anchor['tacker::dbsync::end'],
+    tag         => 'openstack-db',
   }
 
 }

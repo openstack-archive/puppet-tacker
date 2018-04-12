@@ -12,7 +12,7 @@ describe 'tacker::client' do
       it 'contains tackerclient' do
           is_expected.to contain_package('python-tackerclient').with(
               :ensure => 'present',
-              :name   => platform_params[:tackerclient_package],
+              :name   => platform_params[:client_package_name],
               :tag    => 'openstack',
           )
       end
@@ -28,9 +28,19 @@ describe 'tacker::client' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      let :platform_params do
-        { :tackerclient_package => 'python-tackerclient' }
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          if facts[:os_package_type] == 'debian'
+            { :client_package_name => 'python3-tackerclient' }
+          else
+            { :client_package_name => 'python-tackerclient' }
+          end
+        when 'RedHat'
+          { :client_package_name => 'python-tackerclient' }
+        end
       end
+
       it_behaves_like 'tacker::client'
 
     end

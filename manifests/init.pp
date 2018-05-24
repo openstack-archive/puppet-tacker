@@ -166,12 +166,6 @@
 #   (Optional) Run db sync on the node.
 #   Defaults to true
 #
-# DEPRECATED PARAMETERS
-#
-# [*rpc_backend*]
-#   (Optional) Use these options to configure the RabbitMQ message system.
-#   Defaults to 'rabbit'
-#
 # == Authors
 #
 #   Dan Radez <dradez@redhat.com>
@@ -216,8 +210,6 @@ class tacker(
   $amqp_username                      = $::os_service_default,
   $amqp_password                      = $::os_service_default,
   $sync_db                            = true,
-  # DEPRECATED PARAMETERS
-  $rpc_backend                        = 'rabbit',
 ) inherits tacker::params {
 
   include ::tacker::deps
@@ -225,10 +217,6 @@ class tacker(
 
   if $sync_db {
     include ::tacker::db::sync
-  }
-
-  if $rpc_backend {
-    warning('The rpc_backend parameter has been deprecated, please use default_transport_url instead.')
   }
 
   oslo::messaging::rabbit {'tacker_config':

@@ -213,7 +213,6 @@ class tacker(
 ) inherits tacker::params {
 
   include ::tacker::deps
-  include ::tacker::logging
 
   if $sync_db {
     include ::tacker::db::sync

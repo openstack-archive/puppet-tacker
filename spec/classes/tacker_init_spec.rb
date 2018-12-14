@@ -10,10 +10,6 @@ describe 'tacker' do
         }
       end
 
-      it 'contains the logging class' do
-        is_expected.to contain_class('tacker::logging')
-      end
-
       it 'contains the deps class' do
         is_expected.to contain_class('tacker::deps')
       end

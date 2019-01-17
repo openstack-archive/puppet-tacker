@@ -31,11 +31,7 @@ describe 'tacker::client' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          if facts[:os_package_type] == 'debian'
-            { :client_package_name => 'python3-tackerclient' }
-          else
-            { :client_package_name => 'python-tackerclient' }
-          end
+          { :client_package_name => 'python3-tackerclient' }
         when 'RedHat'
           { :client_package_name => 'python-tackerclient' }
         end

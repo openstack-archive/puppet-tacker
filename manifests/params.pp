@@ -2,16 +2,11 @@
 #
 class tacker::params {
   include ::openstacklib::defaults
+  $pyvers = $::openstacklib::defaults::pyvers
+
   $group = 'tacker'
-
-  if ($::os_package_type == 'debian') or ($::os['name'] == 'Fedora') or
-    ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-    $pyvers = '3'
-  } else {
-    $pyvers = ''
-  }
-
   $client_package_name = "python${pyvers}-tackerclient"
+
   case $::osfamily {
     'RedHat': {
       $package_name     = 'openstack-tacker'

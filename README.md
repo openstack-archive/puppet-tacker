@@ -35,7 +35,7 @@ Setup
 
 **What the tacker module affects**
 
-* [Tacker](https://wiki.openstack.org/wiki/Tacker), the NFV orchestration service for OpenStack.
+* [Tacker](https://docs.openstack.org/tacker/latest/), the NFV orchestration service for OpenStack.
 
 ### Installing tacker
 

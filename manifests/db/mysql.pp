@@ -45,7 +45,7 @@ class tacker::db::mysql(
 
   include ::tacker::deps
 
-  validate_string($password)
+  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::mysql { 'tacker':
     user          => $user,

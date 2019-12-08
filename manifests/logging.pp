@@ -123,7 +123,7 @@ class tacker::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
-  include ::tacker::deps
+  include tacker::deps
 
   oslo::log { 'tacker_config':
     use_stderr                    => $use_stderr,

@@ -6,11 +6,11 @@ describe 'basic tacker' do
 
     it 'should work with no errors' do
       pp= <<-EOS
-      include ::openstack_integration
-      include ::openstack_integration::repos
-      include ::openstack_integration::rabbitmq
-      include ::openstack_integration::mysql
-      include ::openstack_integration::keystone
+      include openstack_integration
+      include openstack_integration::repos
+      include openstack_integration::rabbitmq
+      include openstack_integration::mysql
+      include openstack_integration::keystone
 
       rabbitmq_user { 'tacker':
         admin    => true,
@@ -27,7 +27,7 @@ describe 'basic tacker' do
         require              => Class['rabbitmq'],
       }
 
-      class { '::tacker::db::mysql':
+      class { 'tacker::db::mysql':
         password => 'a_big_secret',
       }
       case $::osfamily {
@@ -35,23 +35,23 @@ describe 'basic tacker' do
           warning('Gnocchi is not yet packaged on Ubuntu systems.')
         }
         'RedHat': {
-          class { '::tacker::db':
+          class { 'tacker::db':
             database_connection => 'mysql+pymysql://tacker:a_big_secret@127.0.0.1/tacker?charset=utf8',
           }
-          class { '::tacker::keystone::auth':
+          class { 'tacker::keystone::auth':
             password => 'a_big_secret',
           }
-          class { '::tacker::keystone::authtoken':
+          class { 'tacker::keystone::authtoken':
             password => 'a_big_secret',
           }
-          class { '::tacker::logging':
+          class { 'tacker::logging':
             debug => true,
           }
-          class { '::tacker':
+          class { 'tacker':
             default_transport_url => 'rabbit://tacker:my_secret@127.0.0.1:5672/',
           }
-          include ::tacker::server
-          include ::tacker::client
+          include tacker::server
+          include tacker::client
         }
         default: {
           fail("Unsupported osfamily (${::osfamily})")

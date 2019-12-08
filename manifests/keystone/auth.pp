@@ -79,7 +79,7 @@ class tacker::keystone::auth (
   $internal_url        = 'http://127.0.0.1:9890',
 ) {
 
-  include ::tacker::deps
+  include tacker::deps
 
   if $configure_user_role {
     Keystone_user_role["${auth_name}@${tenant}"] ~> Service <| name == 'tacker-server' |>

@@ -24,7 +24,7 @@ class tacker::config (
   $tacker_config = {},
 ) {
 
-  include ::tacker::deps
+  include tacker::deps
 
   validate_legacy(Hash, 'validate_hash', $tacker_config)
 

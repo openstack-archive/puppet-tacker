@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'tacker::server' do
 
   let :pre_condition do
-    "class { '::tacker::keystone::authtoken':
+    "class { 'tacker::keystone::authtoken':
        password =>'foo',
      }
      class {'::tacker': }"

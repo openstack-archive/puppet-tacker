@@ -43,7 +43,7 @@ class tacker::db::mysql(
   $allowed_hosts = undef
 ) {
 
-  include ::tacker::deps
+  include tacker::deps
 
   validate_legacy(String, 'validate_string', $password)
 

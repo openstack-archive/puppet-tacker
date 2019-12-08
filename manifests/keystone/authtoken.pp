@@ -202,7 +202,7 @@ class tacker::keystone::authtoken(
   $service_token_roles_required   = $::os_service_default,
 ) {
 
-  include ::tacker::deps
+  include tacker::deps
 
   keystone::resource::authtoken { 'tacker_config':
     username                       => $username,

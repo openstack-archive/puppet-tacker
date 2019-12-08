@@ -32,7 +32,7 @@ class tacker::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  include ::tacker::deps
+  include tacker::deps
 
   ::openstacklib::db::postgresql { 'tacker':
     password_hash => postgresql_password($user, $password),

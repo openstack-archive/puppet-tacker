@@ -28,8 +28,8 @@ class tacker::policy (
   $policy_path = '/etc/tacker/policy.json',
 ) {
 
-  include ::tacker::deps
-  include ::tacker::params
+  include tacker::deps
+  include tacker::params
 
   validate_legacy(Hash, 'validate_hash', $policies)
 

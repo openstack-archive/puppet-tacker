@@ -223,10 +223,10 @@ class tacker(
   $sync_db                            = true,
 ) inherits tacker::params {
 
-  include ::tacker::deps
+  include tacker::deps
 
   if $sync_db {
-    include ::tacker::db::sync
+    include tacker::db::sync
   }
 
   oslo::messaging::rabbit {'tacker_config':

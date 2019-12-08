@@ -35,12 +35,12 @@ class tacker::server(
   $package_ensure = 'present',
 ) {
 
-  include ::tacker::deps
-  include ::tacker::params
-  include ::tacker::policy
+  include tacker::deps
+  include tacker::params
+  include tacker::policy
 
   if $auth_strategy == 'keystone' {
-    include ::tacker::keystone::authtoken
+    include tacker::keystone::authtoken
   }
 
   package { 'tacker-server':

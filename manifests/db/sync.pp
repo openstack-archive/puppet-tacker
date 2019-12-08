@@ -17,7 +17,7 @@ class tacker::db::sync(
   $user         = 'tacker',
 ) {
 
-  include ::tacker::deps
+  include tacker::deps
 
   exec { 'tacker-db-sync':
     command     => "tacker-db-manage ${extra_params} upgrade head",

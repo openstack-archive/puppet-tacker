@@ -9,7 +9,6 @@ describe 'tacker::db' do
         :db_max_retries          => '<SERVICE DEFAULT>',
         :connection              => 'sqlite:////var/lib/tacker/tacker.sqlite',
         :connection_recycle_time => '<SERVICE DEFAULT>',
-        :min_pool_size           => '<SERVICE DEFAULT>',
         :max_pool_size           => '<SERVICE DEFAULT>',
         :max_retries             => '<SERVICE DEFAULT>',
         :retry_interval          => '<SERVICE DEFAULT>',
@@ -23,7 +22,6 @@ describe 'tacker::db' do
         {
           :database_connection              => 'mysql+pymysql://tacker:tacker@localhost/tacker',
           :database_connection_recycle_time => '3601',
-          :database_min_pool_size           => '2',
           :database_max_retries             => '11',
           :database_db_max_retries          => '-1',
           :database_retry_interval          => '11',
@@ -38,7 +36,6 @@ describe 'tacker::db' do
       it { should contain_oslo__db('tacker_config').with(
         :connection              => 'mysql+pymysql://tacker:tacker@localhost/tacker',
         :connection_recycle_time => '3601',
-        :min_pool_size           => '2',
         :max_pool_size           => '11',
         :max_retries             => '11',
         :db_max_retries          => '-1',

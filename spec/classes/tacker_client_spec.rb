@@ -33,7 +33,15 @@ describe 'tacker::client' do
         when 'Debian'
           { :client_package_name => 'python3-tackerclient' }
         when 'RedHat'
-          { :client_package_name => 'python-tackerclient' }
+          if facts[:operatingsystem] == 'Fedora'
+            { :client_package_name => 'python3-tackerclient' }
+          else
+            if facts[:operatingsystemmajrelease] > '7'
+              { :client_package_name => 'python3-tackerclient' }
+            else
+              { :client_package_name => 'python-tackerclient' }
+            end
+          end
         end
       end
 

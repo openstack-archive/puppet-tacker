@@ -75,5 +75,5 @@
     ],
     "source": "git://github.com/openstack/puppet-tacker.git",
     "summary": "Puppet module for OpenStack Tacker",
-    "version": "16.2.0"
+    "version": "16.2.1"
 }

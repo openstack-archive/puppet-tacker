@@ -46,8 +46,8 @@ Puppet::Type.newtype(:tacker_config) do
     defaultto('<SERVICE DEFAULT>')
   end
 
-  autorequire(:package) do
-    'tacker'
+  autorequire(:anchor) do
+    ['tacker::install::end']
   end
 
 end

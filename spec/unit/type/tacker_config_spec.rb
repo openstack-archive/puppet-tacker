@@ -1,5 +1,6 @@
 require 'puppet'
 require 'puppet/type/tacker_config'
+
 describe 'Puppet::Type.type(:tacker_config)' do
   before :each do
     @tacker_config = Puppet::Type.type(:tacker_config).new(:name => 'DEFAULT/foo', :value => 'bar')
@@ -52,12 +53,12 @@ describe 'Puppet::Type.type(:tacker_config)' do
 
   it 'should autorequire the package that install the file' do
     catalog = Puppet::Resource::Catalog.new
-    package = Puppet::Type.type(:package).new(:name => 'tacker')
-    catalog.add_resource package, @tacker_config
+    anchor = Puppet::Type.type(:anchor).new(:name => 'tacker::install::end')
+    catalog.add_resource anchor, @tacker_config
     dependency = @tacker_config.autorequire
     expect(dependency.size).to eq(1)
     expect(dependency[0].target).to eq(@tacker_config)
-    expect(dependency[0].source).to eq(package)
+    expect(dependency[0].source).to eq(anchor)
   end
 
 

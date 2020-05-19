@@ -49,7 +49,7 @@ class tacker::db::mysql(
 
   ::openstacklib::db::mysql { 'tacker':
     user          => $user,
-    password_hash => mysql::password($password),
+    password      => $password,
     dbname        => $dbname,
     host          => $host,
     charset       => $charset,

@@ -7,7 +7,7 @@ describe 'tacker::db::postgresql' do
   end
 
   let :required_params do
-    { :password => 'pw' }
+    { :password => 'tackerpass' }
   end
 
   shared_examples_for 'tacker-db-postgresql' do
@@ -16,9 +16,12 @@ describe 'tacker::db::postgresql' do
         required_params
       end
 
-      it { is_expected.to contain_postgresql__server__db('tacker').with(
-        :user     => 'tacker',
-        :password => 'md54fb52f4ce3618bd50cf38d2b7399db7a'
+      it { is_expected.to contain_openstacklib__db__postgresql('tacker').with(
+        :user       => 'tacker',
+        :password   => 'tackerpass',
+        :dbname     => 'tacker',
+        :encoding   => nil,
+        :privileges => 'ALL',
       )}
     end
   end

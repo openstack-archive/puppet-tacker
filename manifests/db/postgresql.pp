@@ -35,11 +35,11 @@ class tacker::db::postgresql(
   include tacker::deps
 
   ::openstacklib::db::postgresql { 'tacker':
-    password_hash => postgresql_password($user, $password),
-    dbname        => $dbname,
-    user          => $user,
-    encoding      => $encoding,
-    privileges    => $privileges,
+    password   => $password,
+    dbname     => $dbname,
+    user       => $user,
+    encoding   => $encoding,
+    privileges => $privileges,
   }
 
   Anchor['tacker::db::begin']

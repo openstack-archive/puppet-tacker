@@ -10,7 +10,7 @@
 #
 # [*user*]
 #   (Optional) User to run dbsync command.
-#   Defaults to 'congress'
+#   Defaults to 'tacker'
 #
 class tacker::db::sync(
   $extra_params = '--config-file /etc/tacker/tacker.conf',

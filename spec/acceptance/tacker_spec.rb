@@ -32,25 +32,26 @@ describe 'basic tacker' do
       }
       case $::osfamily {
         'Debian': {
-          warning('Gnocchi is not yet packaged on Ubuntu systems.')
+          warning('Tacker is not yet packaged on Ubuntu systems.')
         }
         'RedHat': {
-          class { 'tacker::db':
-            database_connection => 'mysql+pymysql://tacker:a_big_secret@127.0.0.1/tacker?charset=utf8',
-          }
-          class { 'tacker::keystone::auth':
-            password => 'a_big_secret',
-          }
-          class { 'tacker::keystone::authtoken':
-            password => 'a_big_secret',
-          }
-          class { 'tacker::logging':
-            debug => true,
-          }
-          class { 'tacker':
-            default_transport_url => 'rabbit://tacker:my_secret@127.0.0.1:5672/',
-          }
-          include tacker::server
+          warning('Tacker installation on CentOS8 is currently broken beause of a missing dependency')
+          # class { 'tacker::db':
+          #   database_connection => 'mysql+pymysql://tacker:a_big_secret@127.0.0.1/tacker?charset=utf8',
+          # }
+          # class { 'tacker::keystone::auth':
+          #   password => 'a_big_secret',
+          # }
+          # class { 'tacker::keystone::authtoken':
+          #   password => 'a_big_secret',
+          # }
+          # class { 'tacker::logging':
+          #   debug => true,
+          # }
+          # class { 'tacker':
+          #   default_transport_url => 'rabbit://tacker:my_secret@127.0.0.1:5672/',
+          # }
+          # include tacker::server
           include tacker::client
         }
         default: {
@@ -64,11 +65,11 @@ describe 'basic tacker' do
       apply_manifest(pp, :catch_changes => true)
     end
 
-    if os[:family].casecmp('RedHat') == 0
-      describe port(9890) do
-        it { is_expected.to be_listening }
-      end
-    end
+    # if os[:family].casecmp('RedHat') == 0
+    #   describe port(9890) do
+    #     it { is_expected.to be_listening }
+    #   end
+    # end
   end
 
 end

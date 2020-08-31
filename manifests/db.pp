@@ -69,9 +69,6 @@ class tacker::db (
     warning('The database_min_pool_size parameter is deprecated, and will be removed in a future release.')
   }
 
-  validate_legacy(Oslo::Dbconn, 'validate_re', $database_connection,
-    ['^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?'])
-
   oslo::db { 'tacker_config':
     db_max_retries          => $database_db_max_retries,
     connection              => $database_connection,

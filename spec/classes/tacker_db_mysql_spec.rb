@@ -16,6 +16,8 @@ describe 'tacker::db::mysql' do
         required_params
       end
 
+      it { should contain_class('tacker::deps') }
+
       it { is_expected.to contain_openstacklib__db__mysql('tacker').with(
         :user          => 'tacker',
         :password      => 'tackerpass',

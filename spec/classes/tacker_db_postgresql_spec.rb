@@ -16,6 +16,8 @@ describe 'tacker::db::postgresql' do
         required_params
       end
 
+      it { is_expected.to contain_class('tacker::deps') }
+
       it { is_expected.to contain_openstacklib__db__postgresql('tacker').with(
         :user       => 'tacker',
         :password   => 'tackerpass',

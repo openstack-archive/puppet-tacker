@@ -4,6 +4,8 @@ describe 'tacker::db::sync' do
 
   shared_examples_for 'tacker-dbsync' do
 
+    it { is_expected.to contain_class('tacker::deps') }
+
     it 'runs tacker-manage db sync' do
       is_expected.to contain_exec('tacker-db-sync').with(
         :command     => 'tacker-db-manage --config-file /etc/tacker/tacker.conf upgrade head',

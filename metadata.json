@@ -65,7 +65,7 @@
             "version_requirement": ">= 6.0.0 < 7.0.0"
         }
     ],
-    "source": "git://github.com/openstack/puppet-tacker.git",
+    "source": "https://opendev.org/openstack/puppet-tacker.git",
     "summary": "Puppet module for OpenStack Tacker",
     "version": "18.0.0"
 }

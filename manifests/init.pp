@@ -148,10 +148,6 @@
 #   (Optional) Password for decrypting ssl_key_file (if encrypted)
 #   Defaults to $::os_service_default
 #
-# [*amqp_allow_insecure_clients*]
-#   (Optional) Accept clients using either SSL or plain TCP
-#   Defaults to $::os_service_default
-#
 # [*amqp_sasl_mechanisms*]
 #   (Optional) Space separated list of acceptable SASL mechanisms
 #   Defaults to $::os_service_default
@@ -175,6 +171,12 @@
 # [*sync_db*]
 #   (Optional) Run db sync on the node.
 #   Defaults to true
+#
+# DEPRECATED PARAMETERS
+#
+# [*amqp_allow_insecure_clients*]
+#   (Optional) Accept clients using either SSL or plain TCP
+#   Defaults to undef
 #
 # == Authors
 #
@@ -214,16 +216,22 @@ class tacker(
   $amqp_ssl_cert_file                 = $::os_service_default,
   $amqp_ssl_key_file                  = $::os_service_default,
   $amqp_ssl_key_password              = $::os_service_default,
-  $amqp_allow_insecure_clients        = $::os_service_default,
   $amqp_sasl_mechanisms               = $::os_service_default,
   $amqp_sasl_config_dir               = $::os_service_default,
   $amqp_sasl_config_name              = $::os_service_default,
   $amqp_username                      = $::os_service_default,
   $amqp_password                      = $::os_service_default,
   $sync_db                            = true,
+  # DEPRECATED PARAMETERS
+  $amqp_allow_insecure_clients        = undef,
 ) inherits tacker::params {
 
   include tacker::deps
+
+  if $amqp_allow_insecure_clients != undef {
+    warning('The amqp_allow_insecure_clients parameter is deprecated and \
+will be removed in a future release.')
+  }
 
   if $sync_db {
     include tacker::db::sync
@@ -246,22 +254,21 @@ class tacker(
   }
 
   oslo::messaging::amqp { 'tacker_config':
-    server_request_prefix  => $amqp_server_request_prefix,
-    broadcast_prefix       => $amqp_broadcast_prefix,
-    group_request_prefix   => $amqp_group_request_prefix,
-    container_name         => $amqp_container_name,
-    idle_timeout           => $amqp_idle_timeout,
-    trace                  => $amqp_trace,
-    ssl_ca_file            => $amqp_ssl_ca_file,
-    ssl_cert_file          => $amqp_ssl_cert_file,
-    ssl_key_file           => $amqp_ssl_key_file,
-    ssl_key_password       => $amqp_ssl_key_password,
-    allow_insecure_clients => $amqp_allow_insecure_clients,
-    sasl_mechanisms        => $amqp_sasl_mechanisms,
-    sasl_config_dir        => $amqp_sasl_config_dir,
-    sasl_config_name       => $amqp_sasl_config_name,
-    username               => $amqp_username,
-    password               => $amqp_password,
+    server_request_prefix => $amqp_server_request_prefix,
+    broadcast_prefix      => $amqp_broadcast_prefix,
+    group_request_prefix  => $amqp_group_request_prefix,
+    container_name        => $amqp_container_name,
+    idle_timeout          => $amqp_idle_timeout,
+    trace                 => $amqp_trace,
+    ssl_ca_file           => $amqp_ssl_ca_file,
+    ssl_cert_file         => $amqp_ssl_cert_file,
+    ssl_key_file          => $amqp_ssl_key_file,
+    ssl_key_password      => $amqp_ssl_key_password,
+    sasl_mechanisms       => $amqp_sasl_mechanisms,
+    sasl_config_dir       => $amqp_sasl_config_dir,
+    sasl_config_name      => $amqp_sasl_config_name,
+    username              => $amqp_username,
+    password              => $amqp_password,
   }
 
   oslo::messaging::default { 'tacker_config':

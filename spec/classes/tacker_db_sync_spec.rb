@@ -14,6 +14,7 @@ describe 'tacker::db::sync' do
         :refreshonly => 'true',
         :try_sleep   => 5,
         :tries       => 10,
+        :timeout     => 300,
         :logoutput   => 'on_failure',
         :subscribe   => ['Anchor[tacker::install::end]',
                          'Anchor[tacker::config::end]',
@@ -26,7 +27,8 @@ describe 'tacker::db::sync' do
     describe "overriding extra_params" do
       let :params do
         {
-          :extra_params => '--config-file /etc/tacker/tacker.conf',
+          :extra_params    => '--config-file /etc/tacker/tacker.conf',
+          :db_sync_timeout => 750,
         }
       end
 
@@ -38,6 +40,7 @@ describe 'tacker::db::sync' do
           :refreshonly => 'true',
           :try_sleep   => 5,
           :tries       => 10,
+          :timeout     => 750,
           :logoutput   => 'on_failure',
           :subscribe   => ['Anchor[tacker::install::end]',
                           'Anchor[tacker::config::end]',

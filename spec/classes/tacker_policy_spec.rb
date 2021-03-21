@@ -5,7 +5,7 @@ describe 'tacker::policy' do
   shared_examples_for 'tacker policies' do
     let :params do
       {
-        :policy_path => '/etc/tacker/policy.json',
+        :policy_path => '/etc/tacker/policy.yaml',
         :policies    => {
           'context_is_admin' => {
             'key'   => 'context_is_admin',
@@ -17,13 +17,14 @@ describe 'tacker::policy' do
 
     it 'set up the policies' do
       is_expected.to contain_openstacklib__policy__base('context_is_admin').with({
-        :key        => 'context_is_admin',
-        :value      => 'foo:bar',
-        :file_user  => 'root',
-        :file_group => 'tacker',
+        :key         => 'context_is_admin',
+        :value       => 'foo:bar',
+        :file_user   => 'root',
+        :file_group  => 'tacker',
+        :file_format => 'yaml',
       })
       is_expected.to contain_oslo__policy('tacker_config').with(
-        :policy_file => '/etc/tacker/policy.json',
+        :policy_file => '/etc/tacker/policy.yaml',
       )
     end
   end

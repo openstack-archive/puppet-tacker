@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe 'tacker::policy' do
-
-  shared_examples_for 'tacker policies' do
+  shared_examples 'tacker::policy' do
     let :params do
       {
-        :policy_path => '/etc/tacker/policy.yaml',
-        :policies    => {
+        :enforce_scope => false,
+        :policy_path   => '/etc/tacker/policy.yaml',
+        :policies      => {
           'context_is_admin' => {
             'key'   => 'context_is_admin',
             'value' => 'foo:bar'
@@ -24,20 +24,21 @@ describe 'tacker::policy' do
         :file_format => 'yaml',
       })
       is_expected.to contain_oslo__policy('tacker_config').with(
-        :policy_file => '/etc/tacker/policy.yaml',
+        :enforce_scope => false,
+        :policy_file   => '/etc/tacker/policy.yaml',
       )
     end
   end
 
   on_supported_os({
-    :supported_os   => OSDefaults.get_supported_os
+    :supported_os => OSDefaults.get_supported_os
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_configures 'tacker policies'
+      it_behaves_like 'tacker::policy'
     end
   end
 end

@@ -36,23 +36,24 @@ describe 'basic tacker' do
           warning('Tacker is not yet packaged on Ubuntu systems.')
         }
         'RedHat': {
-          class { 'tacker::db':
-            database_connection => 'mysql+pymysql://tacker:a_big_secret@127.0.0.1/tacker?charset=utf8',
-          }
-          class { 'tacker::keystone::auth':
-            password => 'a_big_secret',
-          }
-          class { 'tacker::keystone::authtoken':
-            password => 'a_big_secret',
-          }
-          class { 'tacker::logging':
-            debug => true,
-          }
-          class { 'tacker':
-            default_transport_url => 'rabbit://tacker:my_secret@127.0.0.1:5672/',
-          }
-          include tacker::server
-          include tacker::client
+          warning('Tacker is currently disabled because of https://bugs.launchpad.net/puppet-tacker/+bug/1920659')
+          # class { 'tacker::db':
+          #   database_connection => 'mysql+pymysql://tacker:a_big_secret@127.0.0.1/tacker?charset=utf8',
+          # }
+          # class { 'tacker::keystone::auth':
+          #   password => 'a_big_secret',
+          # }
+          # class { 'tacker::keystone::authtoken':
+          #   password => 'a_big_secret',
+          # }
+          # class { 'tacker::logging':
+          #   debug => true,
+          # }
+          # class { 'tacker':
+          #   default_transport_url => 'rabbit://tacker:my_secret@127.0.0.1:5672/',
+          # }
+          # include tacker::server
+          # include tacker::client
         }
         default: {
           fail("Unsupported osfamily (${::osfamily})")
@@ -66,9 +67,9 @@ describe 'basic tacker' do
     end
 
     if os[:family].casecmp('RedHat') == 0
-      describe port(9890) do
-        it { is_expected.to be_listening }
-      end
+      # describe port(9890) do
+      #   it { is_expected.to be_listening }
+      # end
     end
   end
 

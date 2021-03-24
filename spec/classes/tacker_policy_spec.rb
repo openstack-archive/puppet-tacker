@@ -4,9 +4,10 @@ describe 'tacker::policy' do
   shared_examples 'tacker::policy' do
     let :params do
       {
-        :enforce_scope => false,
-        :policy_path   => '/etc/tacker/policy.yaml',
-        :policies      => {
+        :enforce_scope        => false,
+        :enforce_new_defaults => false,
+        :policy_path          => '/etc/tacker/policy.yaml',
+        :policies             => {
           'context_is_admin' => {
             'key'   => 'context_is_admin',
             'value' => 'foo:bar'
@@ -24,8 +25,9 @@ describe 'tacker::policy' do
         :file_format => 'yaml',
       })
       is_expected.to contain_oslo__policy('tacker_config').with(
-        :enforce_scope => false,
-        :policy_file   => '/etc/tacker/policy.yaml',
+        :enforce_scope        => false,
+        :enforce_new_defaults => false,
+        :policy_file          => '/etc/tacker/policy.yaml',
       )
     end
   end

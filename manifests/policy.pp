@@ -8,6 +8,11 @@
 #  (Optional) Whether or not to enforce scope when evaluating policies.
 #  Defaults to $::os_service_default.
 #
+# [*enforce_new_defaults*]
+#  (Optional) Whether or not to use old deprecated defaults when evaluating
+#  policies.
+#  Defaults to $::os_service_default.
+#
 # [*policies*]
 #   (Optional) Set of policies to configure for tacker
 #   Example :
@@ -28,9 +33,10 @@
 #   Defaults to /etc/tacker/policy.yaml
 #
 class tacker::policy (
-  $enforce_scope = $::os_service_default,
-  $policies      = {},
-  $policy_path   = '/etc/tacker/policy.yaml',
+  $enforce_scope        = $::os_service_default,
+  $enforce_new_defaults = $::os_service_default,
+  $policies             = {},
+  $policy_path          = '/etc/tacker/policy.yaml',
 ) {
 
   include tacker::deps
@@ -48,8 +54,9 @@ class tacker::policy (
   create_resources('openstacklib::policy::base', $policies)
 
   oslo::policy { 'tacker_config':
-    enforce_scope => $enforce_scope,
-    policy_file   => $policy_path
+    enforce_scope        => $enforce_scope,
+    enforce_new_defaults => $enforce_new_defaults,
+    policy_file          => $policy_path
   }
 
 }

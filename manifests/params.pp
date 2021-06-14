@@ -2,10 +2,9 @@
 #
 class tacker::params {
   include openstacklib::defaults
-  $pyvers = $::openstacklib::defaults::pyvers
 
   $group = 'tacker'
-  $client_package_name = "python${pyvers}-tackerclient"
+  $client_package_name = 'python3-tackerclient'
 
   case $::osfamily {
     'RedHat': {

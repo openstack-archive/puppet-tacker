@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tacker::conductor`` class has been added.

@@ -43,11 +43,11 @@ class tacker::server(
     include tacker::keystone::authtoken
   }
 
-  package { 'tacker-server':
+  ensure_packages('tacker-server', {
     ensure => $package_ensure,
     name   => $::tacker::params::package_name,
     tag    => ['openstack', 'tacker-package'],
-  }
+  })
 
   tacker_config {
     'DEFAULT/bind_host' : value => $bind_host;
@@ -60,12 +60,10 @@ class tacker::server(
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  if $manage_service {
     service { 'tacker-server':
       ensure => $service_ensure,
-      name   => $::tacker::params::service_name,
+      name   => $::tacker::params::server_service_name,
       enable => $enabled,
       tag    => 'tacker-service'
     }

@@ -36,25 +36,23 @@ describe 'basic tacker' do
           warning('Tacker is not yet packaged on Ubuntu systems.')
         }
         'RedHat': {
-          # NOTE(tkajinam): Tacker installation is currently broken, so disabled
-          #                 until it is fixed.
-          # class { 'tacker::db':
-          #   database_connection => 'mysql+pymysql://tacker:a_big_secret@127.0.0.1/tacker?charset=utf8',
-          # }
-          # class { 'tacker::keystone::auth':
-          #   password => 'a_big_secret',
-          # }
-          # class { 'tacker::keystone::authtoken':
-          #   password => 'a_big_secret',
-          # }
-          # class { 'tacker::logging':
-          #   debug => true,
-          # }
-          # class { 'tacker':
-          #   default_transport_url => 'rabbit://tacker:my_secret@127.0.0.1:5672/',
-          # }
-          # include tacker::server
-          # include tacker::client
+          class { 'tacker::db':
+            database_connection => 'mysql+pymysql://tacker:a_big_secret@127.0.0.1/tacker?charset=utf8',
+          }
+          class { 'tacker::keystone::auth':
+            password => 'a_big_secret',
+          }
+          class { 'tacker::keystone::authtoken':
+            password => 'a_big_secret',
+          }
+          class { 'tacker::logging':
+            debug => true,
+          }
+          class { 'tacker':
+            default_transport_url => 'rabbit://tacker:my_secret@127.0.0.1:5672/',
+          }
+          include tacker::server
+          include tacker::client
         }
         default: {
           fail("Unsupported osfamily (${::osfamily})")
@@ -67,12 +65,11 @@ describe 'basic tacker' do
       apply_manifest(pp, :catch_changes => true)
     end
 
-    # TODO(tkajinam): Enable this once we fix the broken installation
-    # if os[:family].casecmp('RedHat') == 0
-    #   describe port(9890) do
-    #     it { is_expected.to be_listening }
-    #   end
-    # end
+    if os[:family].casecmp('RedHat') == 0
+      describe port(9890) do
+        it { is_expected.to be_listening }
+      end
+    end
   end
 
 end

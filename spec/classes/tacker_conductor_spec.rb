@@ -1,32 +1,21 @@
 require 'spec_helper'
 
-describe 'tacker::server' do
+describe 'tacker::conductor' do
 
   let :pre_condition do
-    "class { 'tacker::keystone::authtoken':
-       password =>'foo',
-     }
-     class {'tacker': }"
+    "class {'tacker': }"
   end
 
   let :params do
     { :enabled        => true,
       :manage_service => true,
-      :bind_host      => '0.0.0.0',
-      :bind_port      => '1789'
     }
   end
 
-  shared_examples_for 'tacker::server' do
+  shared_examples_for 'tacker::conductor' do
 
     it { is_expected.to contain_class('tacker::deps') }
     it { is_expected.to contain_class('tacker::params') }
-    it { is_expected.to contain_class('tacker::policy') }
-
-    it 'configures api' do
-      is_expected.to contain_tacker_config('DEFAULT/bind_host').with_value( params[:bind_host] )
-      is_expected.to contain_tacker_config('DEFAULT/bind_port').with_value( params[:bind_port] )
-    end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
       context "when service should be #{param_hash[:enabled] ? 'enabled' : 'disabled'}" do
@@ -35,9 +24,9 @@ describe 'tacker::server' do
         end
 
         it 'configures tacker-server service' do
-          is_expected.to contain_service('tacker-server').with(
+          is_expected.to contain_service('tacker-conductor').with(
             :ensure => (params[:manage_service] && params[:enabled]) ? 'running' : 'stopped',
-            :name   => platform_params[:server_service_name],
+            :name   => platform_params[:conductor_service_name],
             :enable => params[:enabled],
             :tag    => 'tacker-service',
           )
@@ -65,15 +54,15 @@ describe 'tacker::server' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          { :server_service_name => 'tacker',
-            :tacker_package      => 'tacker' }
+          { :conductor_service_name => 'tacker-conductor',
+            :tacker_package         => 'tacker' }
         when 'RedHat'
-          { :server_service_name => 'openstack-tacker-server',
-            :tacker_package      => 'openstack-tacker' }
+          { :conductor_service_name => 'openstack-tacker-conductor',
+            :tacker_package         => 'openstack-tacker' }
         end
       end
 
-      it_configures 'tacker::server'
+      it_configures 'tacker::conductor'
     end
   end
 end

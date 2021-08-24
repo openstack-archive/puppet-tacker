@@ -8,12 +8,14 @@ class tacker::params {
 
   case $::osfamily {
     'RedHat': {
-      $package_name     = 'openstack-tacker'
-      $service_name     = 'openstack-tacker-server'
+      $package_name           = 'openstack-tacker'
+      $server_service_name    = 'openstack-tacker-server'
+      $conductor_service_name = 'openstack-tacker-conductor'
     }
     'Debian': {
-      $package_name     = 'tacker'
-      $service_name     = 'tacker'
+      $package_name           = 'tacker'
+      $server_service_name    = 'tacker'
+      $conductor_service_name = 'tacker-conductor'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \

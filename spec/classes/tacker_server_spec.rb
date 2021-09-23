@@ -44,7 +44,7 @@ describe 'tacker::server' do
         end
         it 'contains tacker' do
           is_expected.to contain_package('tacker-server').with(
-             :ensure => 'present',
+             :ensure => 'installed',
              :name   => platform_params[:tacker_package]
           )
         end

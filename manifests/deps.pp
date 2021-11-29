@@ -24,6 +24,10 @@ class tacker::deps {
   ~> Service<| tag == 'tacker-service' |>
   ~> anchor { 'tacker::service::end': }
 
+  # all coordination settings should be applied and all packages should be
+  # installed before service startup
+  Oslo::Coordination<||> -> Anchor['tacker::service::begin']
+
   # policy config should occur in the config block also.
   Anchor['tacker::config::begin']
   -> Openstacklib::Policy::Base<||>

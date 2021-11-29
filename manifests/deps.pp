@@ -26,7 +26,7 @@ class tacker::deps {
 
   # policy config should occur in the config block also.
   Anchor['tacker::config::begin']
-  -> Openstacklib::Policy::Base<||>
+  -> Openstacklib::Policy<||>
   ~> Anchor['tacker::config::end']
 
   # all db settings should be applied and all packages should be installed

@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The following classes have been added.
+
+    - ``tacker::vnf_package``
+    - ``tacker::vnf_lcm``

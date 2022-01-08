@@ -17,6 +17,12 @@ describe 'tacker::conductor' do
     it { is_expected.to contain_class('tacker::deps') }
     it { is_expected.to contain_class('tacker::params') }
 
+    it {
+      is_expected.to contain_tacker_config('DEFAULT/report_interval').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_tacker_config('DEFAULT/periodic_interval').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_tacker_config('DEFAULT/periodic_fuzzy_delay').with_value('<SERVICE DEFAULT>')
+    }
+
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
       context "when service should be #{param_hash[:enabled] ? 'enabled' : 'disabled'}" do
         before do
@@ -41,6 +47,20 @@ describe 'tacker::conductor' do
       end
     end
 
+    context 'when parameters set' do
+      before do
+        params.merge!(
+          :report_interval      => 10,
+          :periodic_interval    => 40,
+          :periodic_fuzzy_delay => 5,
+        )
+      end
+      it {
+        is_expected.to contain_tacker_config('DEFAULT/report_interval').with_value(10)
+        is_expected.to contain_tacker_config('DEFAULT/periodic_interval').with_value(40)
+        is_expected.to contain_tacker_config('DEFAULT/periodic_fuzzy_delay').with_value(5)
+      }
+    end
   end
 
   on_supported_os({

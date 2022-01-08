@@ -22,6 +22,10 @@
 #   (optional) The port to bind to.
 #   Defaults to $::os_service_default
 #
+# [*api_workers*]
+#   (optional) Number of separate worker process for service.
+#   Defaults to $::os_workers
+#
 # [*package_ensure*]
 #   (Optional) Ensure state for package.
 #   Defaults to 'present'
@@ -32,6 +36,7 @@ class tacker::server(
   $auth_strategy  = 'keystone',
   $bind_host      = $::os_service_default,
   $bind_port      = $::os_service_default,
+  $api_workers    = $::os_workers,
   $package_ensure = 'present',
 ) {
 
@@ -50,8 +55,9 @@ class tacker::server(
   })
 
   tacker_config {
-    'DEFAULT/bind_host' : value => $bind_host;
-    'DEFAULT/bind_port' : value => $bind_port;
+    'DEFAULT/bind_host' :  value => $bind_host;
+    'DEFAULT/bind_port' :  value => $bind_port;
+    'DEFAULT/api_workers': value => $api_workers;
   }
 
   if $manage_service {

@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``tacker::conductor``
+    class.
+
+    - ``report_interval``
+    - ``periodic_interval``
+    - ``periodic_fuzzy_delay``

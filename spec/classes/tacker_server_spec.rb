@@ -26,6 +26,7 @@ describe 'tacker::server' do
     it 'configures api' do
       is_expected.to contain_tacker_config('DEFAULT/bind_host').with_value( params[:bind_host] )
       is_expected.to contain_tacker_config('DEFAULT/bind_port').with_value( params[:bind_port] )
+      is_expected.to contain_tacker_config('DEFAULT/api_workers').with_value(4)
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
@@ -59,7 +60,9 @@ describe 'tacker::server' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts())
+        facts.merge!(OSDefaults.get_facts(
+          :os_workers => 4
+        ))
       end
 
       let(:platform_params) do

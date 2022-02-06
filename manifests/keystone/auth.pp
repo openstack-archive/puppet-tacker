@@ -96,12 +96,7 @@ class tacker::keystone::auth (
 
   include tacker::deps
 
-  if $configure_user_role {
-    Keystone_user_role["${auth_name}@${tenant}"] ~> Service <| name == 'tacker-server' |>
-  }
-  if $configure_endpoint {
-    Keystone_endpoint["${region}/${service_name}::${service_type}"]  ~> Service <| name == 'tacker-server' |>
-  }
+  Keystone::Resource::Service_identity['tacker'] -> Anchor['tacker::service::end']
 
   keystone::resource::service_identity { 'tacker':
     configure_user      => $configure_user,

@@ -172,12 +172,6 @@
 #   (Optional) Run db sync on the node.
 #   Defaults to true
 #
-# DEPRECATED PARAMETERS
-#
-# [*amqp_allow_insecure_clients*]
-#   (Optional) Accept clients using either SSL or plain TCP
-#   Defaults to undef
-#
 # == Authors
 #
 #   Dan Radez <dradez@redhat.com>
@@ -222,16 +216,9 @@ class tacker(
   $amqp_username                      = $::os_service_default,
   $amqp_password                      = $::os_service_default,
   $sync_db                            = true,
-  # DEPRECATED PARAMETERS
-  $amqp_allow_insecure_clients        = undef,
 ) inherits tacker::params {
 
   include tacker::deps
-
-  if $amqp_allow_insecure_clients != undef {
-    warning('The amqp_allow_insecure_clients parameter is deprecated and \
-will be removed in a future release.')
-  }
 
   if $sync_db {
     include tacker::db::sync

@@ -24,6 +24,11 @@ class tacker::deps {
   ~> Service<| tag == 'tacker-service' |>
   ~> anchor { 'tacker::service::end': }
 
+  # paste-api.ini config should occur in the config block also.
+  Anchor['tacker::config::begin']
+  -> Tacker_api_paste_ini<||>
+  ~> Anchor['tacker::config::end']
+
   # all coordination settings should be applied and all packages should be
   # installed before service startup
   Oslo::Coordination<||> -> Anchor['tacker::service::begin']

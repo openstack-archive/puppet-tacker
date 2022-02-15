@@ -30,12 +30,12 @@ describe 'Puppet::Type.type(:tacker_config)' do
 
   it 'should accept a valid value' do
     @tacker_config[:value] = 'bar'
-    expect(@tacker_config[:value]).to eq('bar')
+    expect(@tacker_config[:value]).to eq(['bar'])
   end
 
   it 'should not accept a value with whitespace' do
     @tacker_config[:value] = 'b ar'
-    expect(@tacker_config[:value]).to eq('b ar')
+    expect(@tacker_config[:value]).to eq(['b ar'])
   end
 
   it 'should accept valid ensure values' do

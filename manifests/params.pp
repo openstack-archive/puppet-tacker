@@ -3,7 +3,8 @@
 class tacker::params {
   include openstacklib::defaults
 
-  $group = 'tacker'
+  $user                = 'tacker'
+  $group               = 'tacker'
   $client_package_name = 'python3-tackerclient'
 
   case $::osfamily {

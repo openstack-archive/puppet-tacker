@@ -10,7 +10,7 @@
 #
 # [*user*]
 #   (Optional) User to run dbsync command.
-#   Defaults to 'tacker'
+#   Defaults to $::tacker::params::user
 #
 # [*db_sync_timeout*]
 #   (Optional) Timeout for the execution of the db_sync
@@ -18,9 +18,9 @@
 #
 class tacker::db::sync(
   $extra_params    = '--config-file /etc/tacker/tacker.conf',
-  $user            = 'tacker',
+  $user            = $::tacker::params::user,
   $db_sync_timeout = 300,
-) {
+) inherits tacker::params {
 
   include tacker::deps
 

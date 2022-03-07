@@ -24,6 +24,7 @@ describe 'tacker::server' do
     it { is_expected.to contain_class('tacker::policy') }
 
     it 'configures api' do
+      is_expected.to contain_tacker_config('DEFAULT/auth_strategy').with_value('keystone')
       is_expected.to contain_tacker_config('DEFAULT/bind_host').with_value( params[:bind_host] )
       is_expected.to contain_tacker_config('DEFAULT/bind_port').with_value( params[:bind_port] )
       is_expected.to contain_tacker_config('DEFAULT/api_workers').with_value(4)

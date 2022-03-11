@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``tacker::server`` class.
+
+    - ``allow_bulk``
+    - ``allow_pagination``
+    - ``allow_sorting``
+    - ``pagination_max_limit``

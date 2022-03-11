@@ -55,9 +55,10 @@ class tacker::server(
   })
 
   tacker_config {
-    'DEFAULT/bind_host' :  value => $bind_host;
-    'DEFAULT/bind_port' :  value => $bind_port;
-    'DEFAULT/api_workers': value => $api_workers;
+    'DEFAULT/auth_strategy': value => $auth_strategy;
+    'DEFAULT/bind_host':     value => $bind_host;
+    'DEFAULT/bind_port':     value => $bind_port;
+    'DEFAULT/api_workers':   value => $api_workers;
   }
 
   if $manage_service {

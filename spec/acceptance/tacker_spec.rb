@@ -29,6 +29,7 @@ describe 'basic tacker' do
       }
 
       class { 'tacker::db::mysql':
+        charset  => $::openstack_integration::params::mysql_charset,
         password => 'a_big_secret',
       }
       case $::osfamily {

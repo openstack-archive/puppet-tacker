@@ -1,8 +1,0 @@
----
-features:
-  - |
-    The new ``tacker_api_paste_ini`` resource type has been added. This allows
-    customizing ``/etc/tacker/api-paste.ini``.
-
-  - |
-    The new ``tacker::config::tacker_api_paste_ini`` parameter has been added.

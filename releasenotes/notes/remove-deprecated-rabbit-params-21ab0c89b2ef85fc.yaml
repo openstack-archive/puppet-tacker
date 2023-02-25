@@ -1,5 +1,0 @@
----
-upgrade:
-  - |
-    The deprecated tacker::rpc_backend is now removed. Please use
-    tacker::default_transport_url instead.

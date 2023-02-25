@@ -1,4 +1,0 @@
----
-features:
-  - |
-    The new ``tacker::server::api_workers`` parameter has been added.
